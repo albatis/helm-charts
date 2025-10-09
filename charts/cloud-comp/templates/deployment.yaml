@@ -19,8 +19,8 @@ spec:
         - containerPort: {{ .Values.containerPort }}
         resources:
           limits:
-              cpu: {{ .Values.resources.cpu | quote }}
-              memory: {{ .Values.resources.memory | quote }}
-            requests:
-              cpu: {{ .Values.resources.cpu | quote }}
-              memory: {{ .Values.resources.memory | quote }}
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+          requests:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
