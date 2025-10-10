@@ -12,5 +12,5 @@ spec:
       storage: {{ .Values.volume.size | trimSuffix "-" }}
   selector:
     matchLabels:
-      type: local
+      namespace: {{ .Values.login | trunc 63 | trimSuffix "-" }}
 {{- end }}
