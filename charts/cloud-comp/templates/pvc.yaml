@@ -1,0 +1,16 @@
+{{- if hasKey .Values "volume" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: default-storage-class
+  resources:
+    requests:
+      storage: {{ .Values.volume.size | trimSuffix "-" }}
+  selector:
+    matchLabels:
+      type: local
+{{- end }}

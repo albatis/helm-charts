@@ -12,6 +12,10 @@ spec:
       labels:
         app: {{ .Values.name | trunc 63 | trimSuffix "-" }}
     spec:
+      volumes:
+        - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
+          persistentVolumeClaim:
+            claimName: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}-pvc
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
@@ -24,3 +28,8 @@ spec:
           requests:
             cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
+        {{- if hasKey .Values "volume" }}
+        volumeMounts:
+            - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
+              mountPath: {{ .Values.volume.path | trimSuffix "-" }}
+        {{- end }}
