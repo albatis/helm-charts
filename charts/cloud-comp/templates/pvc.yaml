@@ -6,10 +6,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: default-storage-class
+  storageClassName: default-storage-class-{{ .Values.login | trunc 63 | trimSuffix "-" }}
   resources:
     requests:
-      storage: {{ .Values.volume.size | trimSuffix "-" }}-{{ .Values.login | trunc 63 | trimSuffix "-" }}
+      storage: {{ .Values.volume.size | trimSuffix "-" }}
   selector:
     matchLabels:
       type: local
