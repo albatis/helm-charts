@@ -9,7 +9,7 @@ spec:
   storageClassName: default-storage-class
   resources:
     requests:
-      storage: {{ .Values.volume.size | trimSuffix "-" }}
+      storage: {{ .Values.volume.size | trimSuffix "-" }}-{{ .Values.login | trunc 63 | trimSuffix "-" }}
   selector:
     matchLabels:
       type: local
