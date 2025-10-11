@@ -22,10 +22,8 @@ spec:
         command: ["sh", "-c", "cp /home/datasets/spotify/2023_spotify_ds1.csv /mnt "]
         resources:
           limits:
-            cpu: '0'
             memory: 32Mi
           requests:
-            cpu: '0'
             memory: 32Mi
         volumeMounts:
           - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
