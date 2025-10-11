@@ -27,7 +27,7 @@ spec:
             memory: 32Mi
         volumeMounts:
           - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
-              mountPath: {{ .Values.volume.path | trimSuffix "-" }}
+            mountPath: {{ .Values.volume.path | trimSuffix "-" }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
