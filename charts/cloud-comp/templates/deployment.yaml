@@ -12,22 +12,14 @@ spec:
       labels:
         app: {{ .Values.name | trunc 63 | trimSuffix "-" }}
     spec:
+      {{- if hasKey .Values "volumes" }}
       volumes:
-        - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
+      {{- range $k, $v := .Values.volumes }}
+        - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
           persistentVolumeClaim:
-            claimName: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}-pvc
-      initContainers:
-      - name: copiar-arquivo
-        image: busybox:latest
-        command: ["sh", "-c", "cp /home/datasets/spotify/2023_spotify_ds1.csv /mnt "]
-        resources:
-          limits:
-            memory: 32Mi
-          requests:
-            memory: 32Mi
-        volumeMounts:
-          - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
-            mountPath: {{ .Values.volume.path | trimSuffix "-" }}
+            claimName: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-pvc
+      {{- end }}
+      {{- end }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
@@ -40,8 +32,10 @@ spec:
           requests:
             cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
-        {{- if hasKey .Values "volume" }}
+        {{- if hasKey .Values "volumes" }}
         volumeMounts:
-            - name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}
-              mountPath: {{ .Values.volume.path | trimSuffix "-" }}
+        {{- range $k, $v := .Values.volumes }}
+            - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+              mountPath: {{ $v.path | trimSuffix "-" }}
+        {{- end }}
         {{- end }}

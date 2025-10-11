@@ -1,18 +1,20 @@
-{{- if hasKey .Values "volume" }}
+{{- if hasKey .Values "volumes" }}
+{{- range $k, $v := .Values.volumes }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}-pvc
-  namespace: {{ .Values.login | trunc 63 | trimSuffix "-" }}
+  name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-pvc
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: default-storage-class-{{ .Values.login | trunc 63 | trimSuffix "-" }}
+  storageClassName: default-storage-class-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-{{ $v.name }}
   resources:
     requests:
-      storage: {{ .Values.volume.size | trimSuffix "-" }}
+      storage: {{ $v.size | trimSuffix "-" }}
   selector:
     matchLabels:
-      namespace: {{ .Values.login | trunc 63 | trimSuffix "-" }}
+      namespace: {{ $.Values.login | trunc 63 | trimSuffix "-" }}
       type: hostPath
+---
+{{- end }}
 {{- end }}

@@ -1,0 +1,22 @@
+{{- if hasKey .Values "volumes" }}
+{{- range $k, $v := .Values.volumes }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+  labels:
+    type: hostPath
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - {{ $v.accessMode }}
+  hostPath:
+    path: {{ $v.hostPath }}
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: default-storage-class-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-{{ $v.name }}
+  volumeMode: Filesystem
+---
+{{- end }}
+{{- end }}
