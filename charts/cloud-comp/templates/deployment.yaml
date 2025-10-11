@@ -17,7 +17,7 @@ spec:
           persistentVolumeClaim:
             claimName: project2-pvc2-{{ .Values.login | trunc 63 | trimSuffix "-" }}-pvc
       initContainers:
-      - name: copiarArquivo
+      - name: copiar-arquivo
         image: busybox:latest
         command: ["sh", "-c", "cp /home/datasets/spotify/2023_spotify_ds1.csv /mnt "]
         resources:
