@@ -1,5 +1,6 @@
 {{- if hasKey .Values "volumes" }}
 {{- range $k, $v := .Values.volumes }}
+{{- if not $v.ignore }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -18,5 +19,6 @@ spec:
   storageClassName: default-storage-class-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-{{ $v.name }}
   volumeMode: Filesystem
 ---
+{{- end }}
 {{- end }}
 {{- end }}

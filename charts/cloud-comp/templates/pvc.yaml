@@ -7,7 +7,11 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  {{- if hasKey $v "storageClassName"  }}
+  storageClassName: {{ $v.storageClassName }}
+  {{- else }}
   storageClassName: default-storage-class-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-{{ $v.name }}
+  {{- end }}
   resources:
     requests:
       storage: {{ $v.size | trimSuffix "-" }}
