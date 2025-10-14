@@ -2,4 +2,4 @@ apiVersion: v2
 name: cloud-comp
 description: Helm Chart - manifestos Kubernetes para Cloud-comp
 type: application
-version: 0.0.21
+version: 0.0.22

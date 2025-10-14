@@ -20,6 +20,24 @@ spec:
             claimName: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-pvc
       {{- end }}
       {{- end }}
+      initContainers:
+      - name: initContainer
+        image: busybox:stable
+        command: ['sh', '-c', 'wget https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv -P /mnt/project2-pv']
+        resources:
+          limits:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+          requests:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+          {{- if hasKey .Values "volumes" }}
+          volumeMounts:
+          {{- range $k, $v := .Values.volumes }}
+              - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+                mountPath: {{ $v.path | trimSuffix "-" }}
+          {{- end }}
+          {{- end }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
@@ -39,21 +57,3 @@ spec:
               mountPath: {{ $v.path | trimSuffix "-" }}
         {{- end }}
         {{- end }}
-        initContainers:
-        - name: vault-init
-          image: busybox:stable
-          command: ['sh', '-c', 'wget https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv -P /mnt/project2-pv']
-          resources:
-            limits:
-              cpu: {{ .Values.resources.cpu | quote }}
-              memory: {{ .Values.resources.memory | quote }}
-            requests:
-              cpu: {{ .Values.resources.cpu | quote }}
-              memory: {{ .Values.resources.memory | quote }}
-            {{- if hasKey .Values "volumes" }}
-            volumeMounts:
-            {{- range $k, $v := .Values.volumes }}
-                - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
-                  mountPath: {{ $v.path | trimSuffix "-" }}
-            {{- end }}
-            {{- end }}
