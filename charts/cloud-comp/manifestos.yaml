@@ -1,0 +1,81 @@
+---
+# Source: cloud-comp/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project2-pv-alexandrevieira-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: default-storage-class-alexandrevieira
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      namespace: alexandrevieira
+      type: hostPath
+---
+# Source: cloud-comp/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: primeiro-service
+spec:
+  selector:
+    app: primeiro
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8080 # The port the Service exposes internally within the cluster
+      targetPort: 80 # The port on the Pod where the application is listening
+      nodePort: 30000 # Optional: A specific port on the Node (must be in the range 30000-32767)
+---
+# Source: cloud-comp/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: primeiro-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: primeiro
+  template:
+    metadata:
+      labels:
+        app: primeiro
+    spec:
+      volumes:
+        - name: project2-pv-alexandrevieira
+          persistentVolumeClaim:
+            claimName: project2-pv-alexandrevieira-pvc
+      containers:
+      - name: primeiro
+        image: albatis/playlists-recommender-system:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0"
+            memory: "64Mi"
+          requests:
+            cpu: "0"
+            memory: "64Mi"
+        volumeMounts:
+            - name: project2-pv-alexandrevieira
+              mountPath: /mnt/project2-pv
+      initContainers:
+      - name: vault-init
+        image: busybox:stable
+        command: ['sh', '-c', 'wget https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv -P /mnt/project2-pv']
+        resources:
+          limits:
+            cpu: "0"
+            memory: "64Mi"
+          requests:
+            cpu: "0"
+            memory: "64Mi"
+          volumeMounts:
+              - name: project2-pv-alexandrevieira
+                mountPath: /mnt/project2-pv
