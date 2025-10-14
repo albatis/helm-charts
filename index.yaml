@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   cloud-comp:
   - apiVersion: v2
+    created: "2025-10-14T23:22:07.182599829Z"
+    description: Helm Chart - manifestos Kubernetes para Cloud-comp
+    digest: 4dfcd51f8729bdfc569563313e0df1e61158b98b0d444f18ada010b35ad316da
+    name: cloud-comp
+    type: application
+    urls:
+    - https://github.com/albatis/helm-charts/releases/download/cloud-comp-0.0.19/cloud-comp-0.0.19.tgz
+    version: 0.0.19
+  - apiVersion: v2
     created: "2025-10-14T22:10:24.162167591Z"
     description: Helm Chart - manifestos Kubernetes para Cloud-comp
     digest: 32030ddea76770b6e70155485b12fc84209ca820512f28d2a54624e6576712f0
@@ -163,4 +172,4 @@ entries:
     urls:
     - https://github.com/albatis/helm-charts/releases/download/cloud-comp-0.0.1/cloud-comp-0.0.1.tgz
     version: 0.0.1
-generated: "2025-10-14T22:10:24.16246096Z"
+generated: "2025-10-14T23:22:07.182741835Z"
