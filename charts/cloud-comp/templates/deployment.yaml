@@ -23,7 +23,7 @@ spec:
       initContainers:
       - name: init-container
         image: alpine:3.22
-        command: ['sh', '-c', 'wget --no-check-certificate https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv -P /mnt/project2-pv']
+        command: ['sh', '-c', {{ printf "'%s'" (.Values.commandInitContainer | default "echo Init Container Executed") }}]
         resources:
           limits:
             cpu: {{ .Values.resources.cpu | quote }}
