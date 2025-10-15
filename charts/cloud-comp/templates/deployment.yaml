@@ -31,13 +31,6 @@ spec:
           requests:
             cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
-          {{- if hasKey .Values "volumes" }}
-          volumeMounts:
-          {{- range $k, $v := .Values.volumes }}
-              - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
-                mountPath: {{ $v.path | trimSuffix "-" }}
-          {{- end }}
-          {{- end }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
