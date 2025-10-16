@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-job
+spec:
+  completions: 1
+  template:
+    spec:
+      {{- if hasKey .Values "volumes" }}
+      volumes:
+      {{- range $k, $v := .Values.volumes }}
+        - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+          persistentVolumeClaim:
+            claimName: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-pvc
+      {{- end }}
+      {{- end }}
+      initContainers:
+      - name: init-container
+        image: alpine:3.22
+        command: ['sh', '-c', {{ printf "'%s'" (.Values.commandInitContainer | default "echo Init Container Executed") }}]
+        resources:
+          limits:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+          requests:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+        {{- if hasKey .Values "volumes" }}
+        volumeMounts:
+        {{- range $k, $v := .Values.volumes }}
+            - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+              mountPath: {{ $v.path | trimSuffix "-" }}
+        {{- end }}
+        {{- end }}
+      containers:
+      - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
+        image: {{ .Values.image | default "alpine:3.22" }}
+        command: ['sh', '-c']
+        args: ["echo 'Iniciando o Job...'; sleep 360; echo 'Job concluído com sucesso!';"]
+        resources:
+          limits:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+          requests:
+            cpu: {{ .Values.resources.cpu | quote }}
+            memory: {{ .Values.resources.memory | quote }}
+        {{- if hasKey .Values "volumes" }}
+        volumeMounts:
+        {{- range $k, $v := .Values.volumes }}
+            - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
+              mountPath: {{ $v.path | trimSuffix "-" }}
+        {{- end }}
+        {{- end }}

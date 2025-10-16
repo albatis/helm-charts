@@ -1,0 +1,19 @@
+name: primeiro
+containerPort: 80
+servicePort: 8080
+nodePort: 30000
+replicas: 1
+image: "alpine:3.22"
+login: alexandrevieira
+resources:
+  cpu: 0
+  memory: 64Mi
+commandInitContainer: "wget --no-check-certificate https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv -P /mnt/project2-pv"
+volumes:
+  - name: project2-pv
+    storageClassName: default-storage-class-alexandrevieira
+    size: 1Gi
+    path: /mnt/project2-pv
+    hostPath: /home/alexandrevieira/project2-pv
+    accessMode: ReadWriteMany
+    ignore: true
