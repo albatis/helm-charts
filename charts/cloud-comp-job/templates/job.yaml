@@ -32,6 +32,11 @@ spec:
               mountPath: {{ $v.path | trimSuffix "-" }}
         {{- end }}
         {{- end }}
+        {{- if hasKey .Values "environments" }}
+        envFrom:
+          - configMapRef:
+            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
+        {{- end }}
       restartPolicy: OnFailure
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
@@ -51,4 +56,9 @@ spec:
             - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
               mountPath: {{ $v.path | trimSuffix "-" }}
         {{- end }}
+        {{- end }}
+        {{- if hasKey .Values "environments" }}
+        envFrom:
+          - configMapRef:
+            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
         {{- end }}

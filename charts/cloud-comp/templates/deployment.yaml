@@ -38,6 +38,11 @@ spec:
               mountPath: {{ $v.path | trimSuffix "-" }}
         {{- end }}
         {{- end }}
+        {{- if hasKey .Values "environments" }}
+        envFrom:
+          - configMapRef:
+            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
+        {{- end }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
@@ -56,4 +61,9 @@ spec:
             - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
               mountPath: {{ $v.path | trimSuffix "-" }}
         {{- end }}
+        {{- end }}
+        {{- if hasKey .Values "environments" }}
+        envFrom:
+          - configMapRef:
+            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
         {{- end }}

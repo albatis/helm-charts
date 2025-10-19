@@ -1,0 +1,10 @@
+{{- if hasKey .Values "environments" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
+data:
+  {{- range $k, $v := .Values.environments }}
+  {{$k}}: {{ $v | quote }}
+  {{- end }}
+{{- end }}

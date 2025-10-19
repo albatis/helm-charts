@@ -5,6 +5,9 @@ nodePort: 30000
 replicas: 1
 image: "alpine:3.22"
 login: alexandrevieira
+environments:
+  ENV: "production"
+  DEBUG: "false"
 resources:
   cpu: 0
   memory: 64Mi
