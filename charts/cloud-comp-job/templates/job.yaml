@@ -5,6 +5,9 @@ metadata:
 spec:
   completions: 1
   template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       {{- if hasKey .Values "volumes" }}
       volumes:
