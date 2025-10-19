@@ -2,4 +2,4 @@ apiVersion: v2
 name: cloud-comp-job
 description: Helm Chart - manifestos Kubernetes para cloud-comp-job
 type: application
-version: 0.0.5
+version: 0.0.6

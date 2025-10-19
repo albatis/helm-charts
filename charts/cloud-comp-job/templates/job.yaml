@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-job
+  generateName: {{ .Values.name | trunc 63 | trimSuffix "-" }}-job-
 spec:
   completions: 1
   template:
