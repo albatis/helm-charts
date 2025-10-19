@@ -35,7 +35,7 @@ spec:
         {{- if hasKey .Values "environments" }}
         envFrom:
           - configMapRef:
-            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
+              name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
         {{- end }}
       restartPolicy: OnFailure
       containers:
@@ -60,5 +60,5 @@ spec:
         {{- if hasKey .Values "environments" }}
         envFrom:
           - configMapRef:
-            name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
+              name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
         {{- end }}
