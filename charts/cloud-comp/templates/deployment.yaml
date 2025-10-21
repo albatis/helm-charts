@@ -22,29 +22,6 @@ spec:
             claimName: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}-pvc
       {{- end }}
       {{- end }}
-      initContainers:
-      - name: init-container
-        image: alpine:3.22
-        command: ['sh', '-c', {{ printf "'%s'" (.Values.commandInitContainer | default "echo Init Container Executed") }}]
-        resources:
-          limits:
-            cpu: {{ .Values.resources.cpu | quote }}
-            memory: {{ .Values.resources.memory | quote }}
-          requests:
-            cpu: {{ .Values.resources.cpu | quote }}
-            memory: {{ .Values.resources.memory | quote }}
-        {{- if hasKey .Values "volumes" }}
-        volumeMounts:
-        {{- range $k, $v := .Values.volumes }}
-            - name: {{ $v.name }}-{{ $.Values.login | trunc 63 | trimSuffix "-" }}
-              mountPath: {{ $v.path | trimSuffix "-" }}
-        {{- end }}
-        {{- end }}
-        {{- if hasKey .Values "environments" }}
-        envFrom:
-          - configMapRef:
-              name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
-        {{- end }}
       containers:
       - name: {{ .Values.name | trunc 63 | trimSuffix "-" }}
         image: {{ .Values.image | default "nginx:latest" }}
