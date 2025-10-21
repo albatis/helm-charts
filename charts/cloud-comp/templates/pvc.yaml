@@ -1,5 +1,6 @@
 {{- if hasKey .Values "volumes" }}
 {{- range $k, $v := .Values.volumes }}
+{{- if not $v.ignorePVC }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -20,5 +21,6 @@ spec:
       namespace: {{ $.Values.login | trunc 63 | trimSuffix "-" }}
       type: hostPath
 ---
+{{- end }}
 {{- end }}
 {{- end }}
