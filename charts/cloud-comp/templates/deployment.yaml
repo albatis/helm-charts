@@ -67,3 +67,16 @@ spec:
           - configMapRef:
               name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-configmap
         {{- end }}
+        {{- if hasKey .Values "livenessProbe"}}
+        livenessProbe:
+          {{- include .Values.livenessProbe | nindent 10 }}  
+        {{- end }}
+        {{- if hasKey .Values "readinessProbe"}}
+        readinessProbe:
+          {{- include .Values.readinessProbe | nindent 10 }}  
+        {{- end }}
+        {{- if hasKey .Values "startupProbe"}}
+        startupProbe:
+          {{- include .Values.startupProbe | nindent 10 }}  
+        {{- end }}
+
