@@ -69,14 +69,14 @@ spec:
         {{- end }}
         {{- if hasKey .Values "livenessProbe"}}
         livenessProbe:
-          {{- include .Values.livenessProbe | nindent 10 }}  
+          {{- toYaml .Values.livenessProbe | nindent 10 }}
         {{- end }}
         {{- if hasKey .Values "readinessProbe"}}
         readinessProbe:
-          {{- include .Values.readinessProbe | nindent 10 }}  
+          {{- toYaml .Values.readinessProbe | nindent 10 }}
         {{- end }}
         {{- if hasKey .Values "startupProbe"}}
         startupProbe:
-          {{- include .Values.startupProbe | nindent 10 }}  
+          {{- toYaml .Values.startupProbe | nindent 10 }}
         {{- end }}
 
