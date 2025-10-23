@@ -1,7 +1,3 @@
-# helm-charts
-helm-charts
-
-=======
 # Helm Charts
 
 Este repositório contém charts Helm para facilitar o deploy e gerenciamento de aplicações no Kubernetes.
