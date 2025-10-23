@@ -77,8 +77,4 @@ Abaixo estão as variáveis que serão preenchidas no arquivo values.yaml do cha
 | `volumes`          | lista    | Não         | Lista de volumes a serem montados. Cada item deve conter `name` (string) e `path` (string). |
 | `environments`     | map      | Não         | Mapa de pares chave/valor que serão inseridos como dados no ConfigMap e como envs no pod.   |
 | `command`          | lista    | Não         | Comando de entrada do Job. Exemplo: `["python", "script.py"]`                               |
-| `args`             | lista    | Não         | Argumentos do comando do Job. Exemplo: `["--flag", "value"]`                                |
-| `restartPolicy`    | string   | Não         | Política de reinício do Job. Padrão: `Never`.                                               |
-| `backoffLimit`     | int      | Não         | Número de tentativas de reinício antes de falhar o Job. Padrão: 6.                          |
-
 ---
