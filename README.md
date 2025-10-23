@@ -40,13 +40,13 @@ Inclua o chart como dependência em seu projeto GitOps:
     memory: 2Gi
     volumes:
     - name: volume1-pv
-        storageClassName: default-storage-class
-        size: 1Gi
-        path: /mnt
-        hostPath: /host/path/data/
-        accessMode: ReadWriteMany
-        ignore: true
-        ignorePVC: true
+      storageClassName: default-storage-class
+      size: 1Gi
+      path: /mnt
+      hostPath: /host/path/data/
+      accessMode: ReadWriteMany
+      ignore: true
+      ignorePVC: true
     livenessProbe:
     httpGet:
         path: /healthz
@@ -74,15 +74,15 @@ Inclua o chart como dependência em seu projeto GitOps:
         ENVVAR1: "VALUE1"
         ENVVAR2: "VALUE2"
       commandInitContainer: "sleep 30;"
-        volumes:
-            - name: volume2-pv
-              storageClassName: default-storage-class
-              size: 1Gi
-              path: /mnt
-              hostPath: /host/path/
-              accessMode: ReadWriteMany
-              ignore: true
-              ignorePVC: true
+      volumes:
+      - name: volume2-pv
+        storageClassName: default-storage-class
+        size: 1Gi
+        path: /mnt
+        hostPath: /host/path/
+        accessMode: ReadWriteMany
+        ignore: true
+        ignorePVC: true
    ```
 
 ## Variáveis de Configuração
