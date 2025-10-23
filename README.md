@@ -29,7 +29,7 @@ Inclua o chart como dependência em seu projeto GitOps:
     
    2. **Exemplo de values.yaml do cloud-comp:**
    ```
-    name: componente
+    name: webapp
     login: ldapuser
     image: albatis/imagem:latest
     containerPort: 8000
@@ -39,11 +39,11 @@ Inclua o chart como dependência em seu projeto GitOps:
     cpu: 1m
     memory: 2Gi
     volumes:
-    - name: project2-pv
+    - name: volume1-pv
         storageClassName: default-storage-class
         size: 1Gi
         path: /mnt
-        hostPath: /home/ldapuser/name-pv
+        hostPath: /host/path/data/
         accessMode: ReadWriteMany
         ignore: true
         ignorePVC: true
@@ -59,6 +59,30 @@ Inclua o chart como dependência em seu projeto GitOps:
     httpGet:
         path: /healthz
         port: 8000
+   ```
+
+3. **Exemplo de values.yaml do cloud-comp-job:**
+   ```
+    cloud-comp-job:
+      name: job1
+      login: ldapuser
+      image: albatis/name-image:latest
+      resources:
+        cpu: 1m
+        memory: 500Mi
+      environments:
+        ENVVAR1: "VALUE1"
+        ENVVAR2: "VALUE2"
+      commandInitContainer: "sleep 30;"
+        volumes:
+            - name: volume2-pv
+              storageClassName: default-storage-class
+              size: 1Gi
+              path: /mnt
+              hostPath: /host/path/
+              accessMode: ReadWriteMany
+              ignore: true
+              ignorePVC: true
    ```
 
 ## Variáveis de Configuração
@@ -112,5 +136,5 @@ Abaixo estão as variáveis que serão preenchidas no arquivo values.yaml do cha
 | `path`              | string   | Sim         | Caminho onde o volume será montado no container.                                            |
 | `hostPath`          | string   | Não         | Caminho no host para montar como volume (usado para volumes do tipo hostPath).              |
 | `accessMode`        | string   | Não         | Modo de acesso do PVC (ex: `ReadWriteOnce`, `ReadWriteMany`).                               |
-| `ignore`            | bool     | Não         | Se verdadeiro, ignora a criação do volume no template.                                      |
+| `ignore`            | bool     | Não         | Se verdadeiro, ignora a criação do PersistentVolume no template.                            |
 | `ignorePVC`         | bool     | Não         | Se verdadeiro, ignora a criação do PersistentVolumeClaim para este volume.                  |
