@@ -29,10 +29,36 @@ Inclua o chart como dependência em seu projeto GitOps:
     
    2. **Exemplo de values.yaml:**
    ```
-    cloud-comp-job:
-      name: job-rules
-      login: alexandrevieira
-    ...
+    name: componente
+    login: ldapuser
+    image: albatis/imagem:latest
+    containerPort: 8000
+    servicePort: 8080
+    nodePort: 30000
+    resources:
+    cpu: 1m
+    memory: 2Gi
+    volumes:
+    - name: project2-pv
+        storageClassName: default-storage-class
+        size: 1Gi
+        path: /mnt
+        hostPath: /home/ldapuser/name-pv
+        accessMode: ReadWriteMany
+        ignore: true
+        ignorePVC: true
+    livenessProbe:
+    httpGet:
+        path: /healthz
+        port: 8000
+    readinessProbe:
+    httpGet:
+        path: /healthz
+        port: 8000
+    startupProbe:
+    httpGet:
+        path: /healthz
+        port: 8000
    ```
 
 ## Variáveis de Configuração
