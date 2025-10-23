@@ -27,7 +27,7 @@ Inclua o chart como dependência em seu projeto GitOps:
       repository: https://albatis.github.io/helm-charts/
    ```
     
-   2. **Exemplo de values.yaml:**
+   2. **Exemplo de values.yaml do cloud-comp:**
    ```
     name: componente
     login: ldapuser
@@ -74,15 +74,16 @@ Abaixo estão as variáveis que serão preenchidas no arquivo values.yaml do cha
 | `replicas`         | int      | Não         | Número de réplicas do Deployment. Padrão: 1.                                                |
 | `image`            | string   | Não         | Imagem do container a ser utilizada. Padrão: `nginx:latest`.                                |
 | `containerPort`    | int      | Sim         | Porta exposta pelo container.                                                               |
+| `servicePort`      | int      | Não         | Porta exposta pelo serviço Kubernetes (Service).                                            |
+| `nodePort`         | int      | Não         | Porta NodePort para expor o serviço externamente.                                           |
 | `resources.cpu`    | string   | Não         | Limite e requisição de CPU para o container. Exemplo: `"250m"`.                             |
 | `resources.memory` | string   | Não         | Limite e requisição de memória para o container. Exemplo: `"256Mi"`.                        |
-| `login`            | string   | Sim (se usar volumes) | Nome do usuário, usado para nomear volumes/persistentVolumeClaims.                  |
-| `volumes`          | lista    | Não         | Lista de volumes a serem montados. Cada item deve conter `name` (string) e `path` (string). |
+| `login`            | string   | Sim (se usar volumes) | Nome do usuário, usado para nomear volumes/persistentVolumeClaims.                |
+| `volumes`          | lista    | Não         | Lista de volumes a serem montados.                                                          |
 | `environments`     | map      | Não         | Mapa de pares chave/valor que serão inseridos como dados no ConfigMap e como envs no pod.   |
 | `livenessProbe`    | objeto   | Não         | Configuração da livenessProbe do container. Exemplo: `httpGet`, `initialDelaySeconds`, etc. |
 | `readinessProbe`   | objeto   | Não         | Configuração da readinessProbe do container.                                                |
 | `startupProbe`     | objeto   | Não         | Configuração da startupProbe do container.                                                  |
-
 
 ---
 
@@ -100,3 +101,16 @@ Abaixo estão as variáveis que serão preenchidas no arquivo values.yaml do cha
 | `environments`     | map      | Não         | Mapa de pares chave/valor que serão inseridos como dados no ConfigMap e como envs no pod.   |
 | `command`          | lista    | Não         | Comando de entrada do Job. Exemplo: `["python", "script.py"]`                               |
 ---
+
+#### Detalhamento das propriedades de `volumes`
+
+| Propriedade         | Tipo     | Obrigatório | Descrição                                                                                   |
+|---------------------|----------|-------------|---------------------------------------------------------------------------------------------|
+| `name`              | string   | Sim         | Nome do volume.                                                                             |
+| `storageClassName`  | string   | Não         | Nome da StorageClass a ser utilizada para o PVC.                                            |
+| `size`              | string   | Não         | Tamanho do volume (ex: `1Gi`).                                                              |
+| `path`              | string   | Sim         | Caminho onde o volume será montado no container.                                            |
+| `hostPath`          | string   | Não         | Caminho no host para montar como volume (usado para volumes do tipo hostPath).              |
+| `accessMode`        | string   | Não         | Modo de acesso do PVC (ex: `ReadWriteOnce`, `ReadWriteMany`).                               |
+| `ignore`            | bool     | Não         | Se verdadeiro, ignora a criação do volume no template.                                      |
+| `ignorePVC`         | bool     | Não         | Se verdadeiro, ignora a criação do PersistentVolumeClaim para este volume.                  |
