@@ -4,7 +4,7 @@ Este repositório contém [Helm charts](https://helm.sh/) para facilitar o deplo
 
 ## Estrutura do Projeto
 
-- Cada diretório representa um chart Helm independente.
+- Cada diretório representa um Helm chart independente.
 - Os charts podem ser utilizados para instalar aplicações, serviços ou componentes de infraestrutura.
 
 
