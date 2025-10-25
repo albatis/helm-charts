@@ -1,6 +1,6 @@
 # Helm Charts
 
-Este repositório contém charts Helm para facilitar o deploy e gerenciamento de aplicações no Kubernetes.
+Este repositório contém [Helm charts](https://helm.sh/) para facilitar o deploy e gerenciamento de aplicações no Kubernetes.
 
 ## Estrutura do Projeto
 
