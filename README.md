@@ -138,3 +138,14 @@ Abaixo estão as variáveis que serão preenchidas no arquivo values.yaml do cha
 | `accessMode`        | string   | Não         | Modo de acesso do PVC (ex: `ReadWriteOnce`, `ReadWriteMany`).                               |
 | `ignore`            | bool     | Não         | Se verdadeiro, ignora a criação do PersistentVolume no template.                            |
 | `ignorePVC`         | bool     | Não         | Se verdadeiro, ignora a criação do PersistentVolumeClaim para este volume.                  |
+
+---
+
+## Manutenção Local do Chart
+
+Para trabalhar com as dependências do Helm e visualizar o template localmente, utilize os seguintes comandos dentro do diretório do chart:
+
+```bash
+helm dependency build
+helm template .
+```
