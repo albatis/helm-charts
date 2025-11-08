@@ -11,6 +11,8 @@ spec:
       app: {{ .Values.name | trunc 63 | trimSuffix "-" }}
   template:
     metadata:
+      annotations:
+        git-commit_sha: {{ .Values.commit_sha | required "O argumento 'commit_sha' é obrigatório" | quote }}
       labels:
         app: {{ .Values.name | trunc 63 | trimSuffix "-" }}
     spec:
