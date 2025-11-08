@@ -23,10 +23,8 @@ spec:
         command: ['sh', '-c', {{ printf "'%s'" (.Values.commandInitContainer | default "echo Init Container Executed") }}]
         resources:
           limits:
-            cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
           requests:
-            cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
         {{- if hasKey .Values "volumes" }}
         volumeMounts:
@@ -46,10 +44,8 @@ spec:
         image: {{ .Values.image | default "alpine:3.22" }}
         resources:
           limits:
-            cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
           requests:
-            cpu: {{ .Values.resources.cpu | quote }}
             memory: {{ .Values.resources.memory | quote }}
         {{- if hasKey .Values "volumes" }}
         volumeMounts:
