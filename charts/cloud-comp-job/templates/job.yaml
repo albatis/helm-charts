@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-job-{{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 5 }}
+  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-job-{{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 5 }}-{{ .Values.global.commit_sha | toString | trunc 5 }}
 spec:
   completions: 1
   template:
