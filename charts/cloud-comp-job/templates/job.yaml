@@ -8,6 +8,7 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        git-commit_sha: {{ .Values.global.commit_sha | required "O argumento 'commit_sha' é obrigatório" | quote }}
     spec:
       {{- if hasKey .Values "volumes" }}
       volumes:
