@@ -1,0 +1,12 @@
+{{- if hasKey .Values "files" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name | trunc 63 | trimSuffix "-" }}-file
+data:
+  {{- range $k, $v := .Values.files }}
+  {{$k}}: {{ $v | toYaml | indent 2 }}
+  {{- end }}
+{{- end }}
+
+
